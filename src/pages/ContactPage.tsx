@@ -5,6 +5,8 @@ import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { motion } from 'motion/react';
 import contactImage from 'figma:asset/b05e348ce9ae7644e189446bd7fb20fd0c7f66ed.png';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 
 export function ContactPage() {
   const [formData, setFormData] = useState({
@@ -13,15 +15,36 @@ export function ContactPage() {
     message: ''
   });
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submission:', formData);
-    setSubmitted(true);
-    setTimeout(() => {
+    setError(null);
+    setIsSubmitting(true);
+
+    try {
+      // Save to Firestore
+      await addDoc(collection(db, 'contacts'), {
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        timestamp: serverTimestamp(),
+        createdAt: new Date().toISOString(),
+      });
+
+      setSubmitted(true);
       setFormData({ name: '', email: '', message: '' });
-      setSubmitted(false);
-    }, 3000);
+      
+      setTimeout(() => {
+        setSubmitted(false);
+      }, 3000);
+    } catch (err) {
+      console.error('Error saving contact:', err);
+      setError('Failed to send message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -154,13 +177,19 @@ export function ContactPage() {
                     />
                   </div>
 
+                  {error && (
+                    <div className="text-red-600 text-sm bg-red-50 p-3 rounded border border-red-200">
+                      {error}
+                    </div>
+                  )}
+
                   <Button
                     type="submit"
-                    disabled={submitted}
-                    className="w-full md:w-auto bg-foreground hover:bg-foreground/90 text-white px-12 py-6 text-lg flex items-center gap-3 transition-all hover:gap-4"
+                    disabled={submitted || isSubmitting}
+                    className="w-full md:w-auto bg-foreground hover:bg-foreground/90 text-white px-12 py-6 text-lg flex items-center gap-3 transition-all hover:gap-4 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {submitted ? 'Message Sent!' : 'Send Message'}
-                    <Send className="w-5 h-5" />
+                    {isSubmitting ? 'Sending...' : submitted ? 'Message Sent!' : 'Send Message'}
+                    {!isSubmitting && <Send className="w-5 h-5" />}
                   </Button>
                 </form>
               </div>
