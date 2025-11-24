@@ -234,7 +234,7 @@ export function HomePage() {
                       src={project.image}
                       alt={project.title}
                       className="w-full h-full object-cover"
-                      style={{ transform: 'scale(1.2)', objectPosition: 'center' }}
+                      style={{ transform: 'scale(1.05)', objectPosition: 'center' }}
                     />
                   </motion.div>
                 </div>
