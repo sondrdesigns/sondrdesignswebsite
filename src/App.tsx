@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { Analytics } from '@vercel/analytics/react';
 import { Navigation } from './components/Navigation';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/HomePage';
@@ -21,6 +22,7 @@ export default function App() {
         </Routes>
         <Footer />
         <SpeedInsights />
+        <Analytics />
       </div>
     </Router>
   );
