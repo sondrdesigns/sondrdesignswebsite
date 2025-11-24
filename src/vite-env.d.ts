@@ -1,52 +1,64 @@
 /// <reference types="vite/client" />
 
+// Image module declarations
 declare module '*.png' {
-  const value: string;
-  export default value;
+  const src: string;
+  export default src;
 }
 
 declare module '*.jpg' {
-  const value: string;
-  export default value;
+  const src: string;
+  export default src;
 }
 
 declare module '*.jpeg' {
-  const value: string;
-  export default value;
+  const src: string;
+  export default src;
 }
 
 declare module '*.JPG' {
-  const value: string;
-  export default value;
+  const src: string;
+  export default src;
 }
 
 declare module '*.svg' {
-  const value: string;
-  export default value;
+  const src: string;
+  export default src;
 }
 
 declare module '*.webp' {
-  const value: string;
-  export default value;
+  const src: string;
+  export default src;
 }
 
+// Vite ?url suffix declarations
 declare module '*.png?url' {
-  const value: string;
-  export default value;
+  const src: string;
+  export default src;
 }
 
 declare module '*.jpg?url' {
-  const value: string;
-  export default value;
+  const src: string;
+  export default src;
 }
 
 declare module '*.jpeg?url' {
-  const value: string;
-  export default value;
+  const src: string;
+  export default src;
+}
+
+declare module '*.JPG?url' {
+  const src: string;
+  export default src;
 }
 
 declare module '*.svg?url' {
-  const value: string;
-  export default value;
+  const src: string;
+  export default src;
+}
+
+declare module '*.webp?url' {
+  const src: string;
+  export default src;
 }
 
