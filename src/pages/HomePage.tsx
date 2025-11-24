@@ -5,8 +5,7 @@ import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { motion } from 'motion/react';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+// Firebase will be loaded dynamically when form is submitted
 const liquidMetalImage = '/images/48e9a45ec1626552d25413ca5f09009387cfd733.png';
 const blendCafeImage = '/images/a5aba046f347df51b3a9508fa3129c084c4f057b.png';
 
@@ -33,6 +32,10 @@ export function HomePage() {
     setIsSubmitting(true);
 
     try {
+      // Dynamically import Firebase only when form is submitted
+      const { collection, addDoc, serverTimestamp } = await import('firebase/firestore');
+      const { db } = await import('../lib/firebase');
+      
       // Save newsletter subscription to Firestore
       await addDoc(collection(db, 'newsletter'), {
         email: email,

@@ -5,8 +5,7 @@ import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { motion } from 'motion/react';
 const contactImage = '/images/b05e348ce9ae7644e189446bd7fb20fd0c7f66ed.png';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+// Firebase will be loaded dynamically when form is submitted
 
 export function ContactPage() {
   const [formData, setFormData] = useState({
@@ -24,6 +23,10 @@ export function ContactPage() {
     setIsSubmitting(true);
 
     try {
+      // Dynamically import Firebase only when form is submitted
+      const { collection, addDoc, serverTimestamp } = await import('firebase/firestore');
+      const { db } = await import('../lib/firebase');
+      
       // Save to Firestore
       await addDoc(collection(db, 'contacts'), {
         name: formData.name,
