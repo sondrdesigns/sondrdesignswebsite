@@ -82,6 +82,11 @@ export function TeamPage() {
                       src={member.image}
                       alt={member.name}
                       className="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                      width="600"
+                      height="800"
+                      style={{ aspectRatio: '3/4' }}
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-secondary to-secondary/50">

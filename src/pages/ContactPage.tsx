@@ -64,6 +64,11 @@ export function ContactPage() {
               src={contactImage} 
               alt="Vintage communication device" 
               className="w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
+              width="800"
+              height="600"
+              style={{ aspectRatio: '4/3' }}
             />
           </motion.div>
 

@@ -80,6 +80,9 @@ export function HomePage() {
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
+                width="800"
+                height="600"
+                style={{ aspectRatio: '4/3' }}
                 animate={{ 
                   y: [0, -15, 0],
                   rotate: [0, 1, 0, -1, 0]
@@ -261,6 +264,9 @@ export function HomePage() {
                       className="w-full h-full object-cover"
                       loading="lazy"
                       decoding="async"
+                      width="800"
+                      height="600"
+                      style={{ aspectRatio: '4/3' }}
                     />
                   </motion.div>
                 </div>

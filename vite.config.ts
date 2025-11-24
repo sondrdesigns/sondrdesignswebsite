@@ -58,6 +58,7 @@
       cssCodeSplit: true,
       sourcemap: false, // Disable sourcemaps in production for smaller bundles
       minify: 'esbuild', // Use esbuild for faster minification
+      cssMinify: true, // Minify CSS for production
       rollupOptions: {
         output: {
           manualChunks: {
