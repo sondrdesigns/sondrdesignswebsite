@@ -5,6 +5,8 @@ import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { motion } from 'motion/react';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 const liquidMetalImage = '/images/48e9a45ec1626552d25413ca5f09009387cfd733.png';
 const blendCafeImage = '/images/a5aba046f347df51b3a9508fa3129c084c4f057b.png';
 
@@ -22,15 +24,34 @@ const featuredProjects = [
 export function HomePage() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = useCallback((e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Email submitted:', email);
-    setSubmitted(true);
-    setTimeout(() => {
+    setError(null);
+    setIsSubmitting(true);
+
+    try {
+      // Save newsletter subscription to Firestore
+      await addDoc(collection(db, 'newsletter'), {
+        email: email,
+        timestamp: serverTimestamp(),
+        createdAt: new Date().toISOString(),
+        source: 'homepage',
+      });
+
+      setSubmitted(true);
       setEmail('');
-      setSubmitted(false);
-    }, 3000);
+      setTimeout(() => {
+        setSubmitted(false);
+      }, 3000);
+    } catch (err) {
+      console.error('Error saving newsletter subscription:', err);
+      setError('Failed to subscribe. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   }, [email]);
 
   return (
@@ -359,14 +380,25 @@ export function HomePage() {
               placeholder="Enter your email"
               className="flex-1 h-14 bg-secondary border-border/50 focus:border-foreground/20"
               required
+              disabled={isSubmitting || submitted}
             />
             <Button 
               type="submit" 
-              className="bg-[#1A374D] text-white h-14 px-8 font-medium hover:bg-[#152d3d] transition-colors"
+              disabled={isSubmitting || submitted}
+              className="bg-[#1A374D] text-white h-14 px-8 font-medium hover:bg-[#152d3d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {submitted ? 'Subscribed ✓' : 'Subscribe'}
+              {isSubmitting ? 'Subscribing...' : submitted ? 'Subscribed ✓' : 'Subscribe'}
             </Button>
           </motion.form>
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-red-600 text-sm bg-red-50 p-3 rounded border border-red-200 max-w-xl mx-auto mt-4"
+            >
+              {error}
+            </motion.div>
+          )}
         </div>
       </section>
 
