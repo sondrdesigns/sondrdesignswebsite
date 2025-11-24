@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { motion } from 'motion/react';
 const blendCafeImage = '/assets/blend-cafe.png';
 
@@ -101,7 +100,7 @@ export function PortfolioPage() {
                   transition={{ duration: 0.6 }}
                   className="w-full h-full"
                 >
-                  <ImageWithFallback
+                  <img
                     src={project.image}
                     alt={project.title}
                     className="w-full h-full object-cover"

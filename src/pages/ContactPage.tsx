@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, type FormEvent } from 'react';
 import { Mail, Phone, MapPin, Send, Instagram, Linkedin } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
@@ -18,7 +18,7 @@ export function ContactPage() {
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
     setIsSubmitting(true);

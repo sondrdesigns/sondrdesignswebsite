@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles, Zap, Code2 } from 'lucide-react';
-import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { motion } from 'motion/react';
@@ -23,7 +22,7 @@ export function HomePage() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     console.log('Email submitted:', email);
     setSubmitted(true);
@@ -231,7 +230,7 @@ export function HomePage() {
                     transition={{ duration: 0.6, ease: "easeOut" }}
                     className="w-full h-full"
                   >
-                    <ImageWithFallback
+                    <img
                       src={project.image}
                       alt={project.title}
                       className="w-full h-full object-cover"

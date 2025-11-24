@@ -1,4 +1,3 @@
-import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { Linkedin, Mail } from 'lucide-react';
 import { motion } from 'motion/react';
 
@@ -78,7 +77,7 @@ export function TeamPage() {
                   className="w-full h-full"
                 >
                   {member.image ? (
-                    <ImageWithFallback
+                    <img
                       src={member.image}
                       alt={member.name}
                       className="w-full h-full object-cover"
