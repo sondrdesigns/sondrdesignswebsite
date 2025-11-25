@@ -71,11 +71,18 @@
               '@radix-ui/react-dropdown-menu',
               '@radix-ui/react-select',
             ],
+            'firebase-vendor': ['firebase/app', 'firebase/firestore'],
           },
           // Optimize chunk file names
           chunkFileNames: 'assets/js/[name]-[hash].js',
           entryFileNames: 'assets/js/[name]-[hash].js',
-          assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
+          assetFileNames: (assetInfo) => {
+            // Handle images separately for better optimization
+            if (assetInfo.name && /\.(png|jpe?g|svg|gif|webp)$/.test(assetInfo.name)) {
+              return 'assets/images/[name]-[hash][extname]';
+            }
+            return 'assets/[ext]/[name]-[hash].[ext]';
+          },
         },
       },
       // Enable compression

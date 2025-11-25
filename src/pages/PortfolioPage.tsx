@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { motion } from 'motion/react';
 // TEMPORARY: Using test image to verify system works
-import blendCafeImage from '../assets/test-blend-cafe.jpg';
+import blendCafeImage from '../assets/a5aba046f347df51b3a9508fa3129c084c4f057b.png';
 
 const projects = [
   {
@@ -110,6 +110,7 @@ export function PortfolioPage() {
                     decoding="async"
                     width="800"
                     height="600"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
                     style={{ aspectRatio: '4/3' }}
                   />
                 </motion.div>

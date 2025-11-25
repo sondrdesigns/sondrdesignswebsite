@@ -4,8 +4,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { motion } from 'motion/react';
-// TEMPORARY: Using test image to verify system works
-import contactImage from '../assets/test-contact.jpg';
+import contactImage from '../assets/b05e348ce9ae7644e189446bd7fb20fd0c7f66ed.png';
 // Firebase will be loaded dynamically when form is submitted
 
 export function ContactPage() {
@@ -72,6 +71,7 @@ export function ContactPage() {
               decoding="async"
               width="800"
               height="600"
+              sizes="(max-width: 1024px) 100vw, 50vw"
               style={{ aspectRatio: '4/3' }}
             />
           </motion.div>

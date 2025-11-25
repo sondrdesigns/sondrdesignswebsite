@@ -7,9 +7,8 @@ import { Input } from '../components/ui/input';
 import { motion } from 'motion/react';
 // Firebase will be loaded dynamically when form is submitted
 // Import images as modules for proper Vite processing
-// TEMPORARY: Using test images to verify system works
-import liquidMetalImage from '../assets/test-liquid-metal.jpg';
-import blendCafeImage from '../assets/test-blend-cafe.jpg';
+import liquidMetalImage from '../assets/48e9a45ec1626552d25413ca5f09009387cfd733.png';
+import blendCafeImage from '../assets/a5aba046f347df51b3a9508fa3129c084c4f057b.png';
 
 const featuredProjects = [
   {
@@ -87,7 +86,11 @@ export function HomePage() {
                 decoding="async"
                 width="800"
                 height="600"
-                style={{ aspectRatio: '4/3' }}
+                style={{ 
+                  aspectRatio: '4/3',
+                  willChange: 'transform'
+                }}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
                 animate={{ 
                   y: [0, -15, 0],
                   rotate: [0, 1, 0, -1, 0]
@@ -95,7 +98,7 @@ export function HomePage() {
                 transition={{ 
                   duration: 8, 
                   repeat: Infinity, 
-                  ease: "easeInOut" 
+                  ease: "easeInOut"
                 }}
               />
             </motion.div>
