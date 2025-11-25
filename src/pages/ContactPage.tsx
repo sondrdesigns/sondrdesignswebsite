@@ -4,7 +4,8 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { motion } from 'motion/react';
-import contactImage from '../assets/b05e348ce9ae7644e189446bd7fb20fd0c7f66ed.jpg';
+// TEMPORARY: Using test image to verify system works
+import contactImage from '../assets/test-contact.jpg';
 // Firebase will be loaded dynamically when form is submitted
 
 export function ContactPage() {
