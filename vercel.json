@@ -76,7 +76,7 @@
   ],
   "rewrites": [
     {
-      "source": "/feedback/(?!general).*",
+      "source": "/feedback/((?!general).*)",
       "destination": "/api/feedback/general"
     },
     {
