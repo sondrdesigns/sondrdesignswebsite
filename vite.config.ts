@@ -110,8 +110,6 @@
       },
       // Enable compression
       reportCompressedSize: true,
-      // Optimize chunk size
-      chunkSizeWarningLimit: 600,
     },
     assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.svg'],
     server: {
