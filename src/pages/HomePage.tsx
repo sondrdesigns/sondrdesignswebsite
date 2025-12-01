@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles, Zap, Code2 } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
@@ -20,39 +20,9 @@ const featuredProjects = [
 ];
 
 export function HomePage() {
-  // Add structured data for SEO
-  useEffect(() => {
-    const structuredData = {
-      "@context": "https://schema.org",
-      "@type": "WebPage",
-      "name": "Sondr Designs - Web Design Agency Honolulu",
-      "description": "Sondr Designs is a premier web design agency in Honolulu, Hawaii specializing in web design, SEO, digital marketing, and high-performance websites.",
-      "url": "https://sondrdesigns.com",
-      "mainEntity": {
-        "@type": "Organization",
-        "name": "Sondr Designs",
-        "url": "https://sondrdesigns.com",
-        "logo": "https://sondrdesigns.com/images/48e9a45ec1626552d25413ca5f09009387cfd733.png",
-        "sameAs": [
-          "https://instagram.com/sondr.designs",
-          "https://linkedin.com/company/sondr-designs",
-          "https://x.com/sondrdesigns"
-        ]
-      }
-    };
-
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.text = JSON.stringify(structuredData);
-    document.head.appendChild(script);
-
-    return () => {
-      document.head.removeChild(script);
-    };
-  }, []);
 
   return (
-    <main className="pt-20">
+    <div className="pt-20">
       {/* Hero Section - Split screen with liquid metal */}
       <section className="relative min-h-[95vh] flex items-center overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 w-full min-h-[95vh]">
@@ -389,6 +359,6 @@ export function HomePage() {
           </motion.div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
