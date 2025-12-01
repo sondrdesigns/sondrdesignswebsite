@@ -76,7 +76,7 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!assets|images|favicon.JPG|favicon.ico|robots.txt|.*\\.png|.*\\.jpg|.*\\.jpeg|.*\\.svg|.*\\.webp).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
