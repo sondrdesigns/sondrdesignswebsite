@@ -73,10 +73,6 @@
   ],
   "rewrites": [
     {
-      "source": "/feedback/((?!general).*)",
-      "destination": "/api/feedback/general"
-    },
-    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
