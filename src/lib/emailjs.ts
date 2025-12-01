@@ -45,12 +45,20 @@ if (hasPlaceholders) {
   console.warn('   The contact form will not work until you add your EmailJS credentials to .env\n');
 }
 
-// Initialize EmailJS with public key
-if (emailjsConfig.publicKey && !emailjsConfig.publicKey.includes('your-') && !emailjsConfig.publicKey.includes('public-key')) {
-  emailjs.init(emailjsConfig.publicKey);
-  console.log('✅ EmailJS initialized successfully');
-} else {
-  console.warn('⚠️  EmailJS not initialized - missing public key');
+// Initialize EmailJS with public key (only if public key exists and is valid)
+try {
+  if (emailjsConfig.publicKey && 
+      typeof emailjsConfig.publicKey === 'string' && 
+      emailjsConfig.publicKey.length > 0 &&
+      !emailjsConfig.publicKey.includes('your-') && 
+      !emailjsConfig.publicKey.includes('public-key')) {
+    emailjs.init(emailjsConfig.publicKey);
+    console.log('✅ EmailJS initialized successfully');
+  } else {
+    console.warn('⚠️  EmailJS not initialized - missing or invalid public key');
+  }
+} catch (error) {
+  console.warn('⚠️  EmailJS initialization failed:', error);
 }
 
 export { emailjs, emailjsConfig };
