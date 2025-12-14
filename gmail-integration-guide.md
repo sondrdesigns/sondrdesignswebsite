@@ -114,3 +114,6 @@ Use a dedicated email marketing service that integrates with Gmail:
 
 Would you like me to update your code to integrate with Google Sheets? I'll modify the newsletter subscription handler to send data to both EmailJS (for notifications) and Google Sheets (for the mailing list).
 
+
+
+

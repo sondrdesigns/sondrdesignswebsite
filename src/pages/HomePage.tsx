@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles, Zap, Code2 } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
 import { motion } from 'motion/react';
+import { SEO } from '../components/SEO';
+import { emailjs, emailjsConfig } from '../lib/emailjs';
 // Import images as modules for proper Vite processing
 import liquidMetalImage from '../assets/48e9a45ec1626552d25413ca5f09009387cfd733.png';
 import blendCafeImage from '../assets/a5aba046f347df51b3a9508fa3129c084c4f057b.png';
+
+// KHM Tutoring logo
+const khmTutoringLogo = '/images/Original Logo (1).png';
 
 const featuredProjects = [
   {
@@ -17,12 +23,60 @@ const featuredProjects = [
     image: blendCafeImage,
     status: 'In Development',
   },
+  {
+    id: 2,
+    title: 'KHM Tutoring',
+    category: 'Digital',
+    description: 'Tutoring company website providing educational services',
+    image: khmTutoringLogo,
+    url: 'https://www.khmtutoring.com',
+  },
 ];
 
 export function HomePage() {
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setIsSubmitting(true);
+
+    try {
+      await emailjs.send(
+        emailjsConfig.serviceId,
+        emailjsConfig.newsletterTemplateId,
+        {
+          email: email,
+          to_email: 'team@sondrstudios.com',
+        },
+        emailjsConfig.publicKey
+      );
+
+      setSubmitted(true);
+      setEmail('');
+      setIsSubmitting(false);
+      setTimeout(() => {
+        setSubmitted(false);
+      }, 3000);
+    } catch (err) {
+      console.error('Error sending newsletter subscription:', err);
+      setError('Failed to subscribe. Please try again.');
+      setIsSubmitting(false);
+    }
+  }, [email]);
 
   return (
-    <div className="pt-20">
+    <>
+      <SEO 
+        title="Sondr Designs - Web Design Agency | Digital Experiences That Perform"
+        description="Sondr Designs is a premium web design agency crafting elevated digital experiences. We specialize in web design, web development, brand design, and UI/UX design. Where simplicity meets chaos, strategy meets execution, and vision becomes reality."
+        keywords="web design, web design agency, digital agency, web development, brand design, UI/UX design, website design, custom web development, responsive web design, e-commerce design, web design services, Honolulu web design, Hawaii web design"
+        url="https://sondrdesigns.com/"
+      />
+      <div className="pt-20">
       {/* Hero Section - Split screen with liquid metal */}
       <section className="relative min-h-[95vh] flex items-center overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 w-full min-h-[95vh]">
@@ -42,7 +96,7 @@ export function HomePage() {
             >
               <motion.img
                 src={liquidMetalImage}
-                alt="Liquid metal design"
+                alt="Sondr Designs - Modern web design and digital experiences with liquid metal aesthetic"
                 className="w-full h-auto max-w-2xl object-contain drop-shadow-2xl"
                 loading="eager"
                 fetchPriority="high"
@@ -51,7 +105,7 @@ export function HomePage() {
                 height="600"
                 style={{ 
                   aspectRatio: '4/3',
-                  contentVisibility: 'auto'
+                  willChange: 'transform'
                 }}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
                 animate={{ 
@@ -61,8 +115,7 @@ export function HomePage() {
                 transition={{ 
                   duration: 8, 
                   repeat: Infinity, 
-                  ease: "easeInOut",
-                  type: "tween" // Better performance than default
+                  ease: "easeInOut"
                 }}
               />
             </motion.div>
@@ -223,28 +276,33 @@ export function HomePage() {
                 transition={{ duration: 0.8, delay: index * 0.1 }}
                 viewport={{ once: true }}
                 className="group cursor-pointer"
+                onClick={project.url ? () => window.open(project.url, '_blank', 'noopener,noreferrer') : undefined}
               >
-                <div className="relative aspect-[3/4] overflow-hidden rounded-lg mb-5 bg-white">
+                <div className={`relative aspect-[3/4] overflow-hidden rounded-lg mb-5 ${
+                  project.id === 2 ? 'bg-white border-2 border-black' : 'bg-white'
+                }`}>
                   <motion.div
                     whileHover={{ scale: 1.03 }}
                     transition={{ duration: 0.6, ease: "easeOut" }}
-                    className="w-full h-full"
+                    className={`w-full h-full ${
+                      project.id === 2 ? 'flex items-center justify-center p-8' : ''
+                    }`}
                   >
                     <ImageWithFallback
                       src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover"
+                      alt={`${project.title} - ${project.description} by Sondr Designs web design agency`}
+                      className={project.id === 2 ? 'w-full h-auto object-contain' : 'w-full h-full object-cover'}
                       loading="lazy"
                       decoding="async"
                       width="800"
                       height="600"
-                      style={{ aspectRatio: '4/3' }}
+                      style={project.id === 2 ? {} : { aspectRatio: '4/3' }}
                     />
                   </motion.div>
                 </div>
                 
                 <div className="space-y-2">
-                  <h3 className="text-xl tracking-tight group-hover:text-foreground/60 transition-colors">
+                  <h3 className="text-xl tracking-tight font-normal group-hover:text-foreground/60 transition-colors">
                     {project.title}
                   </h3>
                   <div className="flex items-center gap-3 text-sm text-foreground/50">
@@ -325,6 +383,61 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* Newsletter Section */}
+      <section className="px-8 py-32">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl md:text-5xl lg:text-6xl mb-6 tracking-tight">
+              Stay in the loop
+            </h2>
+            <p className="text-xl text-foreground/50 max-w-2xl mx-auto">
+              Insights on design, technology, and digital innovation.
+            </p>
+          </motion.div>
+          
+          <motion.form 
+            onSubmit={handleSubmit} 
+            className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            viewport={{ once: true }}
+          >
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              className="flex-1 h-14 bg-secondary border-border/50 focus:border-foreground/20"
+              required
+              disabled={isSubmitting || submitted}
+            />
+            <Button 
+              type="submit" 
+              disabled={isSubmitting || submitted}
+              className="bg-[#1A374D] text-white h-14 px-8 font-medium hover:bg-[#152d3d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? 'Subscribing...' : submitted ? 'Subscribed ✓' : 'Subscribe'}
+            </Button>
+          </motion.form>
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-red-600 text-sm bg-red-50 p-3 rounded border border-red-200 max-w-xl mx-auto mt-4"
+            >
+              {error}
+            </motion.div>
+          )}
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="px-8 py-40 bg-black text-white relative overflow-hidden">
         <div className="absolute inset-0 halftone-overlay opacity-10" />
@@ -360,5 +473,6 @@ export function HomePage() {
         </div>
       </section>
     </div>
+    </>
   );
 }

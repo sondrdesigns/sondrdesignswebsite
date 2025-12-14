@@ -1,6 +1,7 @@
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { Linkedin, Mail } from 'lucide-react';
 import { motion } from 'motion/react';
+import { SEO } from '../components/SEO';
 
 const team = [
   {
@@ -34,7 +35,14 @@ const team = [
 
 export function TeamPage() {
   return (
-    <div className="pt-20">
+    <>
+      <SEO 
+        title="Our Team - Sondr Designs Studio | Web Design Experts"
+        description="Meet the Sondr Designs team of web design experts. Our studio includes lead engineers, visual architects, and project managers dedicated to creating exceptional digital experiences."
+        keywords="web design team, web development team, design studio team, UI/UX designers, web developers, creative team, Sondr Designs team"
+        url="https://sondrdesigns.com/team"
+      />
+      <div className="pt-20">
       {/* Header */}
       <section className="px-8 py-32 max-w-7xl mx-auto">
         <motion.div
@@ -80,7 +88,7 @@ export function TeamPage() {
                   {member.image ? (
                     <ImageWithFallback
                       src={member.image}
-                      alt={member.name}
+                      alt={`${member.name} - ${member.role} at Sondr Designs web design agency`}
                       className="w-full h-full object-cover"
                       loading="lazy"
                       decoding="async"
@@ -204,5 +212,6 @@ export function TeamPage() {
         </motion.div>
       </section>
     </div>
+    </>
   );
 }

@@ -61,35 +61,17 @@
       cssMinify: true, // Minify CSS for production
       rollupOptions: {
         output: {
-          manualChunks: (id) => {
-            // Separate vendor chunks for better caching and code splitting
-            if (id.includes('node_modules')) {
-              // React core
-              if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
-                return 'react-vendor';
-              }
-              // Animation library
-              if (id.includes('motion')) {
-                return 'motion-vendor';
-              }
-              // UI components - split into smaller chunks
-              if (id.includes('@radix-ui')) {
-                if (id.includes('dialog') || id.includes('dropdown-menu') || id.includes('select')) {
-                  return 'ui-core';
-                }
-                return 'ui-vendor';
-              }
-              // Firebase
-              if (id.includes('firebase')) {
-                return 'firebase-vendor';
-              }
-              // Analytics - separate chunk for lazy loading
-              if (id.includes('@vercel/analytics') || id.includes('@vercel/speed-insights')) {
-                return 'analytics-vendor';
-              }
-              // Other vendors
-              return 'vendor';
-            }
+          manualChunks: {
+            // Separate vendor chunks for better caching
+            'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+            'motion-vendor': ['motion/react'],
+            'ui-vendor': [
+              '@radix-ui/react-accordion',
+              '@radix-ui/react-dialog',
+              '@radix-ui/react-dropdown-menu',
+              '@radix-ui/react-select',
+            ],
+            'firebase-vendor': ['firebase/app', 'firebase/firestore'],
           },
           // Optimize chunk file names
           chunkFileNames: 'assets/js/[name]-[hash].js',
@@ -101,11 +83,6 @@
             }
             return 'assets/[ext]/[name]-[hash].[ext]';
           },
-        },
-        treeshake: {
-          moduleSideEffects: 'no-external',
-          preset: 'smallest',
-          propertyReadSideEffects: false,
         },
       },
       // Enable compression

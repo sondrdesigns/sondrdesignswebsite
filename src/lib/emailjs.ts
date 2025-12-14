@@ -6,6 +6,8 @@ const emailjsConfig = {
   serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
   templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
   publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+  // Optional: Newsletter template ID (can be same as contact template or different)
+  newsletterTemplateId: import.meta.env.VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID || import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
 };
 
 // Validate that all required environment variables are present
@@ -45,20 +47,12 @@ if (hasPlaceholders) {
   console.warn('   The contact form will not work until you add your EmailJS credentials to .env\n');
 }
 
-// Initialize EmailJS with public key (only if public key exists and is valid)
-try {
-  if (emailjsConfig.publicKey && 
-      typeof emailjsConfig.publicKey === 'string' && 
-      emailjsConfig.publicKey.length > 0 &&
-      !emailjsConfig.publicKey.includes('your-') && 
-      !emailjsConfig.publicKey.includes('public-key')) {
-    emailjs.init(emailjsConfig.publicKey);
-    console.log('✅ EmailJS initialized successfully');
-  } else {
-    console.warn('⚠️  EmailJS not initialized - missing or invalid public key');
-  }
-} catch (error) {
-  console.warn('⚠️  EmailJS initialization failed:', error);
+// Initialize EmailJS with public key
+if (emailjsConfig.publicKey && !emailjsConfig.publicKey.includes('your-') && !emailjsConfig.publicKey.includes('public-key')) {
+  emailjs.init(emailjsConfig.publicKey);
+  console.log('✅ EmailJS initialized successfully');
+} else {
+  console.warn('⚠️  EmailJS not initialized - missing public key');
 }
 
 export { emailjs, emailjsConfig };

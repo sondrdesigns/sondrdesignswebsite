@@ -4,8 +4,9 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { motion } from 'motion/react';
-import contactImage from '../assets/b05e348ce9ae7644e189446bd7fb20fd0c7f66ed.png';
+import { SEO } from '../components/SEO';
 import { emailjs, emailjsConfig } from '../lib/emailjs';
+import contactImage from '../assets/b05e348ce9ae7644e189446bd7fb20fd0c7f66ed.png';
 
 export function ContactPage() {
   const [formData, setFormData] = useState({
@@ -23,7 +24,6 @@ export function ContactPage() {
     setIsSubmitting(true);
 
     try {
-      // Send email using EmailJS
       await emailjs.send(
         emailjsConfig.serviceId,
         emailjsConfig.templateId,
@@ -31,27 +31,33 @@ export function ContactPage() {
           from_name: formData.name,
           from_email: formData.email,
           message: formData.message,
-          to_name: 'Sondr Studios',
+          to_email: 'team@sondrstudios.com',
         },
         emailjsConfig.publicKey
       );
 
       setSubmitted(true);
       setFormData({ name: '', email: '', message: '' });
-      
+      setIsSubmitting(false);
       setTimeout(() => {
         setSubmitted(false);
       }, 3000);
     } catch (err) {
-      console.error('Error sending email:', err);
+      console.error('Error sending contact form:', err);
       setError('Failed to send message. Please try again.');
-    } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="pt-20">
+    <>
+      <SEO 
+        title="Contact Sondr Designs - Web Design Agency | Start Your Project"
+        description="Contact Sondr Designs to start your web design project. Get in touch with our team for custom web development, brand design, and digital strategy services."
+        keywords="contact web design agency, hire web designer, web design consultation, custom website quote, web development services contact, Sondr Designs contact"
+        url="https://sondrdesigns.com/contact"
+      />
+      <div className="pt-20">
       {/* Hero Section - Split Layout with Image */}
       <section className="relative min-h-[90vh] bg-white overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 h-full min-h-[90vh]">
@@ -65,7 +71,7 @@ export function ContactPage() {
           >
             <img 
               src={contactImage} 
-              alt="Vintage communication device" 
+              alt="Contact Sondr Designs - Web design agency ready to create your digital experience" 
               className="w-full h-full object-cover"
               loading="lazy"
               decoding="async"
@@ -320,5 +326,6 @@ export function ContactPage() {
         </div>
       </section>
     </div>
+    </>
   );
 }
