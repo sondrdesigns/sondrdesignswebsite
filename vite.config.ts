@@ -71,7 +71,6 @@
               '@radix-ui/react-dropdown-menu',
               '@radix-ui/react-select',
             ],
-            'firebase-vendor': ['firebase/app', 'firebase/firestore'],
           },
           // Optimize chunk file names
           chunkFileNames: 'assets/js/[name]-[hash].js',
