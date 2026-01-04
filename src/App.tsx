@@ -10,6 +10,7 @@ const HomePage = lazy(() => import('./pages/HomePage').then(module => ({ default
 const PortfolioPage = lazy(() => import('./pages/PortfolioPage').then(module => ({ default: module.PortfolioPage })));
 const TeamPage = lazy(() => import('./pages/TeamPage').then(module => ({ default: module.TeamPage })));
 const ContactPage = lazy(() => import('./pages/ContactPage').then(module => ({ default: module.ContactPage })));
+const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage').then(module => ({ default: module.PrivacyPolicyPage })));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -29,6 +30,7 @@ export default function App() {
             <Route path="/work" element={<PortfolioPage />} />
             <Route path="/team" element={<TeamPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="*" element={<HomePage />} />
           </Routes>
         </Suspense>
